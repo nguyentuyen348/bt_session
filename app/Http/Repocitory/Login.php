@@ -5,7 +5,7 @@ use App\Http\Requests\FormExampleRequest;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Session;
 
-class LoginRepocitory
+class Login
 {
     public function checkLogin(Customer $customer, FormExampleRequest $request)
     {

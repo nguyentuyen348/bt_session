@@ -26,7 +26,7 @@ class FormExampleRequest extends FormRequest
     {
         return [
             'username'=>'required|min:4',
-            'email'=>'required|email',
+            'email'=>'required|unique:|email',
             'age'=>'required|numeric|min:18',
             'password'=>'min:4',
             'repeatPassword'=>'required_with:password|same:password|min:4',

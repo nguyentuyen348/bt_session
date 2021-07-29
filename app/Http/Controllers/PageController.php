@@ -8,8 +8,9 @@ use App\Http\Requests\FormExampleRequest;
 use App\Models\Customer;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use LoginRepocitory;
+use Login;
 
 class PageController
 {
@@ -26,17 +27,29 @@ class PageController
 
     public function login()
     {
-        return view('customers/login');
+        return view('page.login');
     }
 
-    public function isCustomer(Customer $customer, FormExampleRequest $request)
+    public function isCustomer(FormExampleRequest $request)
     {
 
-        if ($request->username==$customer->username && $request->password==$customer->password){
+        $customers=Customer::all();
 
-            Session::flash('success','hello'.$customer->username);
+        foreach ($customers as $customer)
+        if ($request->username===$customer->username && $request->password===$customer->password){
+
+            Session::flash('success','hello'.$customer[0]->username);
+
             return redirect()->action([\App\Http\Controllers\PageController::class,'index']);
         }
+        /*$credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }*/
+
+
     }
 
 

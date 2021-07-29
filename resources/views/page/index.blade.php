@@ -81,7 +81,7 @@
         <!----start-top-nav---->
         <nav class="top-nav main-menu">
             <ul class="top-nav">
-                <li><a href="{{route('products.list')}}">PRODUCTS </a><span> </span></li>
+                <li><a href="{{--{{route('products.list')}}--}}">PRODUCTS </a><span> </span></li>
                 <li><a href="products.html">CAMPAINGS</a><span> </span></li>
                 <li><a href="products.html">SERVICES</a><span> </span></li>
                 <li><a href="products.html">BRANDS</a><span> </span></li>

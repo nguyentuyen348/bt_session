@@ -51,7 +51,7 @@ class CustomerController extends Controller
         $customer->password=$request->password;
         $customer->save();
 
-        Session::flash('success','helle'.$customer->username);
+        Session::flash('success','hello'.$customer->username);
         return redirect()->action([PageController::class,'index']);
     }
 

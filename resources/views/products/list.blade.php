@@ -32,7 +32,7 @@
                             @if($product->img)
                                 <img src="{{ asset('storage/'.$product->img) }}" alt="" style="width: 150px; height: 150px">
                             @else
-                                <img src="public/storage/imgs/default.jpg" alt="" style="width: 150px; height: 150px">
+                                <img src="" alt="" style="width: 150px; height: 150px">
                             @endif
                         </th>
                         <th scope="row">{{$product->name}}</th>
