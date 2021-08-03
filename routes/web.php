@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CustomerController, ProductController};
+use App\Http\Controllers\{CartController, UserController, PageController, ProductController};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,21 +13,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/',function(){
+return view('page.index');
+});
 Route::prefix('page')->group(function (){
 
-    Route::get('/index',[\App\Http\Controllers\PageController::class,'index'])->name('page.index');
+    Route::get('/index',[PageController::class,'index'])->name('page.index');
 
-    Route::get('/register',[\App\Http\Controllers\PageController::class,'register'])->name('page.register');
+    Route::get('/register',[PageController::class,'register'])->name('page.register');
 
-    Route::get('/login',[\App\Http\Controllers\PageController::class,'login'])->name('page.login');
-    Route::post('/login',[\App\Http\Controllers\PageController::class,'isCustomer'])->name('page.customer');
+
 
 });
 
 
 Route::prefix('products')->group(function (){
-
     Route::get('/list',[ProductController::class,'index'])->name('products.list');
 
     Route::get('/create',[ProductController::class,'create'])->name('products.create');
@@ -39,22 +39,33 @@ Route::prefix('products')->group(function (){
     Route::post('/edit/{id}',[ProductController::class,'update'])->name('products.update');
 
     Route::get('/destroy/{id}',[ProductController::class,'destroy'])->name('products.destroy');
+});
+
+
+Route::prefix('users')->group(function (){
+    Route::get('/list',[UserController::class,'index'])->name('users.list');
+    Route::get('/create',[UserController::class,'create'])->name('users.create');
+    Route::post('/create', [UserController::class,'store'])->name('users.store');
+
+    Route::get('/profile/{id}',[UserController::class,'profile'])->name('users.profile');
+
+    Route::get('/edit/{id}',[UserController::class,'edit'])->name('users.edit');
+    Route::post('/edit/{id}',[UserController::class,'update'])->name('users.update');
+
+    Route::get('/destroy/{id}',[UserController::class,'destroy'])->name('users.destroy');
+
+    Route::get('/login',[PageController::class,'login'])->name('users.login');
+    Route::post('/login',[PageController::class,'isUser'])->name('users.come');
+
+    Route::get('/logout',[PageController::class,'logout'])->name('users.logout');
 
 });
 
-Route::prefix('customers')->group(function (){
+Route::prefix('cart')->group(function () {
+    Route::get('/detail', [CartController::class, 'detail'])->name("cart.detail");
+    Route::get('/addtocart/{id}', [CartController::class, 'addToCart'])->name("cart.addToCart");
+    Route::get('/delete/{id}', [CartController::class,'deleteById'])->name("cart.delete");
 
-
-
-    Route::get('/list',[CustomerController::class,'index'])->name('customers.list');
-    Route::get('/create',[CustomerController::class,'create'])->name('customers.create');
-    Route::post('/create', [CustomerController::class,'store'])->name('customers.store');
-
-    Route::get('/profile/{customer_id}',[CustomerController::class,'profile'])->name('customers.profile');
-
-    Route::get('/edit/{customer_id',[CustomerController::class,'edit'])->name('customers.edit');
-    Route::post('/edit/{customer_id}',[CustomerController::class,'update'])->name('customers.update');
-
-    Route::get('/destroy/{customer_id}',[CustomerController::class,'destroy'])->name('customers.destroy');
 });
+
 

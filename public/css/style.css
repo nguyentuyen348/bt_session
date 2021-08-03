@@ -23,13 +23,16 @@ body a{
 /*----top-header---*/
 .top-header{
 	padding:2em 0;
+    background: #447be5;
 }
 .logo{
 	float: left;
 	margin-top: 4.1em;
+    margin-left: 2em;
 }
 .top-header-info{
 	float:right;
+    margin-right: 2em;
 }
 .cart-details ul li{
 	list-style:none;

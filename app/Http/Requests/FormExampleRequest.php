@@ -25,8 +25,8 @@ class FormExampleRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'=>'required|min:4',
-            'email'=>'required|unique:|email',
+            'name'=>'required|unique:users,name|min:4',
+            'email'=>'required|unique:users,email|email',
             'age'=>'required|numeric|min:18',
             'password'=>'min:4',
             'repeatPassword'=>'required_with:password|same:password|min:4',
@@ -36,15 +36,16 @@ class FormExampleRequest extends FormRequest
     public function messages()
     {
         return $message = [
-            'username.required'=>'plz enter username',
-        //    'username.unique'=>'username already exist',
-            'username.min'=>'plz enter username more than 4 characters',
+            'name.required'=>'plz enter name',
+            'name.unique'=>'name already exist',
+            'name.min'=>'plz enter name more than 4 characters',
             'email.required' =>'plz enter email',
-       //     'email.unique' =>'email already exist',
+            'email.unique' =>'email already exist',
             'age.min' => 'Age must be on 18',
             'password.min'=> 'plz enter password more than 4 characters'
         ];
     }
+
 
 
 }

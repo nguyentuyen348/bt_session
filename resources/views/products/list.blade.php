@@ -1,53 +1,31 @@
 @extends('layout.master')
 @section('title','list products')
 @section('content')
-<body>
-<h3>list product</h3>
-<a class="btn btn-success btn-lg" href="{{route('products.create')}}">add product</a>
-@if (session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
+    <div>
+    <p><a class="btn btn-success btn-lg" href="{{route('products.create')}}">add product</a></p>
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+    <div class="">
+        @foreach($products as $product)
+                <div class="col-md-3 special-products-grid text-center">
+                    <a class="brand-name" href=""><img src="{{asset('storage/'.$product->img)}}" alt=""
+                                                                       style="width:120px;height: 100px;"></a>
+                    <h4><a class="product-here" href="">{{$product->name}}  </a></h4>
+                    <h4><a href="">{{$product->brand}}</a></h4>
+                    <p><a class="product-btn" href="{{route('cart.addToCart',$product->id)}}"><span>{{$product->price}}</span><small>BUY NOW</small></a></p>
+                    <p><a href="{{route('products.detail',$product->id)}}" class="product-btn"
+                          style="background: #005cbf">Detail</a></p>
+                    <p><a href="{{route('products.edit',$product)}}" class="product-btn"
+                          style="background: #005cbf">Update</a></p>
+                    <p><a href="{{ route('products.destroy', $product) }}" class="product-btn"
+                          style="background:orangered"
+                          onclick="return confirm('are you sure?')">Delete</a></p>
+                </div>
+           @endforeach
     </div>
-@endif
-        <table class="table">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">img</th>
-                <th scope="col">name</th>
-                <th scope="col">gender</th>
-                <th scope="col">brand</th>
-                <th scope="col">category</th>
-                <th scope="col">price</th>
-                <th scope="col">status</th>
-                <th colspan="3" scope="col">action </th>
-            </tr>
-            </thead>
-            <tbody>
-                @foreach($products as $product)
-                    <tr>
-                        <th scope="row">{{ $product->id }}</th>
-                        <th scope="row">
+    </div>
 
-                            @if($product->img)
-                                <img src="{{ asset('storage/'.$product->img) }}" alt="" style="width: 150px; height: 150px">
-                            @else
-                                <img src="" alt="" style="width: 150px; height: 150px">
-                            @endif
-                        </th>
-                        <th scope="row">{{$product->name}}</th>
-                        <th scope="row">{{$product->gender}}</th>
-                        <th scope="row">{{$product->brand}}</th>
-                        <th scope="row">{{$product->category}}</th>
-                        <th scope="row">{{$product->price}}</th>
-                        <th scope="row">{{$product->status}}</th>
-
-                        <td><a href="{{route('products.detail',$product->id)}}" class="btn btn-warning btn-lg">Detail</a></td>
-                        <td><a href="{{route('products.edit',$product)}}" class="btn btn-warning btn-lg">Update</a></td>
-                        <td><a href="{{ route('products.destroy', $product) }}" class="btn btn-danger btn-lg" onclick="return confirm('are you sure?')">Delete</a></td>
-
-                    </tr>@endforeach
-            </tbody>
-        </table>
-</body>
 @endsection

@@ -15,16 +15,17 @@
 
         <div class="mb-3">
             <label for="username" class="form-label">username</label>
-            <input type="text" class="form-control" id="username" name="username" value="{{ $customer->username }}">
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ $customer->email }}">
+            <input type="text" class="form-control" id="username" name="username" value="{{ $users->name }}">
         </div>
         <div class="mb-3">
             <label for="age" class="form-label">age</label>
-            <input type="text" class="form-control" id="age" name="age" value="{{ $customer->age }}">
+            <input type="text" class="form-control" id="age" name="age" value="{{ $users->age }}">
         </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">email</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ $users->email }}">
+        </div>
+
         <button type="submit" class="btn btn-success"> Update </button>
 
     </form>

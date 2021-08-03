@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormExampleRequest;
-use App\Models\Customer;
+use App\Models\User;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
-class CustomerController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +20,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers= Customer::all()->sortByDesc('customers_id');
-        return view('customers.list',compact('customers'));
+        $users= User::all()->sortByDesc('id');
+        return view('users.list',compact('users'));
     }
 
     /**
@@ -29,29 +31,26 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('customers.create');
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param FormExampleRequest $request
-     * @param Customer $customer
+     * @param User $user
      * @return RedirectResponse
      */
 
-
-
-
-    public function store(FormExampleRequest $request, Customer $customer): RedirectResponse
+    public function store(FormExampleRequest $request, User $user): RedirectResponse
     {
-        $customer->username=$request->username;
-        $customer->email=$request->email;
-        $customer->age=$request->age;
-        $customer->password=$request->password;
-        $customer->save();
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->age=$request->age;
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-        Session::flash('success','hello'.$customer->username);
+        Session::flash('success','hello'.$user->name);
         return redirect()->action([PageController::class,'index']);
     }
 
@@ -62,12 +61,12 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function profile($customer_id)
+    public function profile($id)
     {
 
-        $customer = DB::table('customers')->where('customer_id', $customer_id)->get();
+        $user = DB::table('users')->where('id', $id)->get();
         // dd($customer);
-        return view('customers.profile', compact('customer'));
+        return view('users.profile', compact('user'));
 
     }
 
@@ -77,11 +76,11 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit(User $user)
     {
-       // $customer = DB::table('customers')->where('customer_id', $customer_id)->get();
-        $customer = Customer::findOrFail($customer->customer_id);
-        return view('customers.edit', compact('customer'));
+       // $customer = DB::table('users')->where('customer_id', $customer_id)->get();
+        $user = User::findOrFail($user->id);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -91,16 +90,16 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, User $user)
     {
-        $customer->username=$request->username;
-        $customer->email=$request->email;
-        $customer->age=$request->age;
-        $customer->password=$request->password;
-        $customer->save();
+        $user->name=$request->name;
+        $user->email=$request->email;
+        $user->age=$request->age;
+        $user->password=$request->password;
+        $user->save();
 
         Session::flash('success','update success!');
-        return redirect()->route('customers.list');
+        return redirect()->route('users.list');
     }
 
     /**
@@ -109,11 +108,14 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return RedirectResponse
      */
-    public function destroy($customer_id)
+    public function destroy($id)
     {
-        $customer=Customer::findOrFail($customer_id);
-        $customer->delete();
-        return redirect()->action([CustomerController::class,'index'])
+        $user=User::findOrFail($id);
+        $user->delete();
+        return redirect()->action([UserController::class,'index'])
             ->with('success','delete success!');
     }
+
+
+
 }

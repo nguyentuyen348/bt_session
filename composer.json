@@ -11,7 +11,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
-            "doctrine/dbal": "v2.4.2"
+            "doctrine/dbal": "v2.4.2",
+      "ext-mongodb": "*",
+      "ext-http": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -8,9 +8,11 @@ use App\Http\Requests\FormExampleRequest;
 use App\Models\Customer;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Login;
+
 
 class PageController
 {
@@ -19,38 +21,41 @@ class PageController
         return view('page/index');
     }
 
-
     public function register()
     {
-        return view('customers.create');
+        return view('users.create');
     }
 
     public function login()
     {
-        return view('page.login');
+        return view('users.login');
     }
 
-    public function isCustomer(FormExampleRequest $request)
+    public function isUser(Request $request)
     {
 
-        $customers=Customer::all();
 
-        foreach ($customers as $customer)
-        if ($request->username===$customer->username && $request->password===$customer->password){
+        $email = $request->email;
+        $password = $request->password;
 
-            Session::flash('success','hello'.$customer[0]->username);
+        $data = [
+            'email' => $email,
+            'password' => $password
+        ];
+        if (Auth::attempt($data)) {
+            session()->flash('success', 'hello :P');
+            return redirect()->route('page.index');
+        } else
+            session()->flash('error', 'Account not exits!');
+            return redirect()->route('users.login');
 
-            return redirect()->action([\App\Http\Controllers\PageController::class,'index']);
         }
-        /*$credentials = $request->only('username', 'password');
 
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return redirect()->intended('dashboard');
-        }*/
-
-
+    function logout()
+    {
+        session()->flush();
+        Auth::logout();
+        return redirect()->route('users.login');
     }
-
 
 }
